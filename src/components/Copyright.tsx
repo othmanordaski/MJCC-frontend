@@ -12,13 +12,14 @@ const copyRightInfos: copyRightInfos[] = [
     link: "https://mjcc.gov.ma/fr/politique-de-confidentialite/",
   },
 ];
-function Copyright() {
+const Copyright: React.FC = () => {
+  const currentYear = new Date().getFullYear();
   return (
     <div className="h-12 bg-white flex justify-center items-center gap-[100px]">
       <div>
         <span className="text-[#4A5972] text-base">
           Ministère de la Jeunesse, de la Culture et de la Communication Tous
-          droits réservés © 2024.
+          droits réservés © {currentYear}.
         </span>
       </div>
       <div>
@@ -34,6 +35,6 @@ function Copyright() {
       </div>
     </div>
   );
-}
+};
 
 export default Copyright;
