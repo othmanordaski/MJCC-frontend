@@ -1,16 +1,14 @@
-import Header from "./components/Header";
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import Copyright from "./components/Copyright";
-function App() {
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+const App: React.FC = () => {
   return (
-    <>
-      <Header />
-      <NavBar />
-      <Footer />
-      <Copyright />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
