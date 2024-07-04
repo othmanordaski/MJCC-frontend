@@ -1,35 +1,160 @@
-function NavBar() {
-  return (
-    <>
-      <div className="flex justify-between px-4 shadow-lg">
-        <div>
-          <img
-            className="h-[95px] w-[200px]"
-            src="https://mjcc.gov.ma/wp-content/uploads/2021/12/mjcc_black.svg"
-            alt="logo"
-          />
-        </div>
-        <div className="flex justify-between items-center ">
-          <div className="flex justify-center items-center mr-[20px]">
-            <li className="list-none m-0 p-0 text-blue-500 mr-7 ">
-              Actualités
-            </li>
-            <li className="list-none m-0 p-0 text-blue-500 mr-7 ">
-              Départements
-            </li>
-            <li className="list-none m-0 p-0 text-blue-500 mr-7 ">Province</li>
-            <li className="list-none m-0 p-0 text-blue-500 mr-7 ">
-              Appels d’offres et concours
-            </li>
-          </div>
-          <div className="mr-4">
-            <button className="px-3 py-1 rounded-lg text-orange-500 border-solid border-2 border-orange-500 bg-white hover:bg-orange-500 hover:text-white">
-              Log in
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
+
+const provinces: string[] = [
+  "Tanger-Tétouan-Al Hoceïma",
+  "L'Oriental",
+  "Fès-Meknès",
+  "Rabat-Salé-Kénitra",
+  "Béni Mellal-Khénifra",
+  "Casablanca-Settat",
+  "Marrakech-Safi",
+  "Drâa-Tafilalet",
+  "Souss-Massa",
+  "Guelmim-Oued Noun",
+  "Laâyoune-Sakia El Hamra",
+  "Dakhla-Oued Ed-Dahab",
+];
+
+const departements: string[] = ["jeunesse", "communication", "culture"];
+
+interface DropdownProps {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  title: string;
+  items: string[];
+  linkPrefix: string;
+  className?: string;
+  twoColumns?: boolean;
 }
+
+const Dropdown: React.FC<DropdownProps> = ({
+  isOpen,
+  setIsOpen,
+  title,
+  items,
+  linkPrefix,
+  className,
+  twoColumns = false,
+}) => {
+  const halfLength = Math.ceil(items.length / 2);
+  const firstColumn = items.slice(0, halfLength);
+  const secondColumn = items.slice(halfLength);
+
+  return (
+    <li className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center text-blue-500 hover:text-blue-700"
+        aria-haspopup="true"
+        aria-expanded={isOpen}
+      >
+        {title} <ChevronDown className="ml-1 h-4 w-4" />
+      </button>
+      {isOpen && (
+        <div
+          className={`absolute z-10 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 ${className}`}
+        >
+          {twoColumns ? (
+            <div className="grid grid-cols-2 gap-4 p-4">
+              {[firstColumn, secondColumn].map((column, columnIndex) => (
+                <ul key={columnIndex} className="space-y-1">
+                  {column.map((item) => (
+                    <li key={item}>
+                      <Link
+                        to={`${linkPrefix}/${item
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`}
+                        className="block px-2 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          ) : (
+            <ul className="py-1">
+              {items.map((item) => (
+                <li key={item} className="py-1">
+                  <Link
+                    to={`${linkPrefix}/${item
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </li>
+  );
+};
+
+const NavBar: React.FC = () => {
+  const [isRegionsOpen, setIsRegionsOpen] = useState<boolean>(false);
+  const [isDepartmentsOpen, setIsDepartmentsOpen] = useState<boolean>(false);
+
+  return (
+    <header className="shadow-lg">
+      <nav className="container mx-auto px-4 py-2 flex justify-between items-center">
+        <Link to="/" className="flex-shrink-0">
+          <img
+            className="h-20 w-auto"
+            src="https://mjcc.gov.ma/wp-content/uploads/2021/12/mjcc_black.svg"
+            alt="MJCC Logo"
+          />
+        </Link>
+        <ul className="flex items-center space-x-6">
+          <li>
+            <Link
+              to="/actualites"
+              className="text-blue-500 hover:text-blue-700"
+            >
+              Actualités
+            </Link>
+          </li>
+          <Dropdown
+            isOpen={isDepartmentsOpen}
+            setIsOpen={setIsDepartmentsOpen}
+            title="Départements"
+            items={departements}
+            linkPrefix="/departement"
+            className="w-48"
+          />
+          <Dropdown
+            isOpen={isRegionsOpen}
+            setIsOpen={setIsRegionsOpen}
+            title="Régions"
+            items={provinces}
+            linkPrefix="/province"
+            className="w-96"
+            twoColumns={true}
+          />
+          <li>
+            <Link
+              to="/appels-offres-concours"
+              className="text-blue-500 hover:text-blue-700"
+            >
+              Appels d'offres et concours
+            </Link>
+          </li>
+        </ul>
+        <Link
+          to="/login"
+          className="px-4 py-2 rounded-lg text-orange-500 border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-colors duration-300"
+        >
+          Se connecter
+        </Link>
+      </nav>
+    </header>
+  );
+};
+
 export default NavBar;
