@@ -53,7 +53,7 @@ const QuickAccessItem: React.FC<QuickAccessItemProps> = ({
   url,
 }) => (
   <div className="flex items-center space-x-4 py-2">
-    <img src={urlToImage} alt={title} className="w-8 h-8" />
+    <img src={urlToImage} alt={title} className="w-10 h-10 rounded-lg" />
     <div>
       <h4 className="font-semibold">{title}</h4>
       <a href={url} className="text-orange-500 flex items-center">
