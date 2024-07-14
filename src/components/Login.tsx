@@ -3,6 +3,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useAuth } from "../hooks/useAuth";
+
 const loginSchema = z.object({
   email: z.string().email("invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
@@ -16,13 +18,13 @@ const Login: React.FC = () => {
   } = useForm<loginFormData>({
     resolver: zodResolver(loginSchema),
   });
+  const { login } = useAuth();
   const onSubmit = async (data: loginFormData) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await login(data);
       console.log("Form submitted:", data);
     } catch (error) {
       console.error("Login error:", error);
-      // Handle login error (e.g., show error message to user)
     }
   };
   return (
