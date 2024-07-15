@@ -18,12 +18,12 @@ export const useAuth = () => {
       setIsLoading(false);
     }
   };
-  const register = async (credentials: RegisterCredentials) => {
+  const signup = async (credentials: RegisterCredentials) => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await authApi.register(credentials);
-      console.log(response);
+      return response;
     } catch (err) {
       setError("register failed . Please try again.");
       throw err;
@@ -31,5 +31,5 @@ export const useAuth = () => {
       setIsLoading(false);
     }
   };
-  return { login, register, isLoading, error };
+  return { login, signup, isLoading, error };
 };
