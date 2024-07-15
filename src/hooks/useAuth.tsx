@@ -18,7 +18,7 @@ export const useAuth = () => {
       setIsLoading(false);
     }
   };
-  const register = async (credentials: RegisterCredentials) => {
+  const signup = async (credentials: RegisterCredentials) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -31,5 +31,5 @@ export const useAuth = () => {
       setIsLoading(false);
     }
   };
-  return { login, register, isLoading, error };
+  return { login, signup, isLoading, error };
 };
