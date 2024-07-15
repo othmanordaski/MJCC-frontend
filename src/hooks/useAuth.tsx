@@ -10,7 +10,7 @@ export const useAuth = () => {
     setError(null);
     try {
       const response = await authApi.login(credentials);
-      console.log(response);
+      return response;
     } catch (err) {
       setError("Login failed. Please try again.");
       throw err;
