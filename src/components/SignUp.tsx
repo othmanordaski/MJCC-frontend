@@ -58,7 +58,7 @@ const SignUp: React.FC = () => {
   const onSubmit = async (data: SignUpFormData) => {
     try {
       const response = await signup(data);
-      console.log(response);
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
