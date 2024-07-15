@@ -1,6 +1,7 @@
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import Modal from "@mui/material/Modal";
 import { z } from "zod";
 const newsletterSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -21,7 +22,7 @@ const NewsletterSubscription: React.FC = () => {
   };
 
   return (
-    <div className=" bg-gray-100 p-8  h-[170px] rounded-lg max-w-auto mx-[60px] mb-10">
+    <div className=" bg-gray-100 p-8  h-[170px] rounded-lg max-w-auto mx-[30px] mb-10">
       <p className="text-xl font-semibold text-gray-500 mb-2">Restez informé</p>
       <div className="flex items-center gap-10">
         <div>
