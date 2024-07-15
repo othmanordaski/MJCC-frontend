@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import Login from "./Login";
 
 const provinces: string[] = [
   "Tanger-Tétouan-Al Hoceïma",
@@ -99,6 +100,10 @@ const Dropdown: React.FC<DropdownProps> = ({
 
 const NavBar: React.FC = () => {
   const [isRegionsOpen, setIsRegionsOpen] = useState<boolean>(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const handleLoginOpen = () => setLoginOpen(true);
+  const handleLoginClose = () => setLoginOpen(false);
+
   const [isDepartmentsOpen, setIsDepartmentsOpen] = useState<boolean>(false);
 
   return (
@@ -146,12 +151,13 @@ const NavBar: React.FC = () => {
             </Link>
           </li>
         </ul>
-        <Link
-          to="/login"
+        <button
           className="px-4 py-2 rounded-lg text-orange-500 border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-colors duration-300"
+          onClick={handleLoginOpen}
         >
           Se connecter
-        </Link>
+        </button>
+        <Login open={loginOpen} onClose={handleLoginClose} />
       </nav>
     </header>
   );

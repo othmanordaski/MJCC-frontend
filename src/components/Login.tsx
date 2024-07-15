@@ -4,13 +4,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useAuth } from "../hooks/useAuth";
+import Modal from "@mui/material/Modal";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { TfiClose } from "react-icons/tfi";
 
 const loginSchema = z.object({
   email: z.string().email("invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 type loginFormData = z.infer<typeof loginSchema>;
-const Login: React.FC = () => {
+interface LoginProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ open, onClose }) => {
   const {
     register,
     handleSubmit,
@@ -18,29 +27,50 @@ const Login: React.FC = () => {
   } = useForm<loginFormData>({
     resolver: zodResolver(loginSchema),
   });
+  const navigte = useNavigate();
+  const setToken = (token: string) => {
+    Cookies.set("access_token", JSON.stringify(token), {
+      path: "/",
+      sameSite: "lax",
+    });
+  };
   const { login } = useAuth();
   const onSubmit = async (data: loginFormData) => {
     try {
-      await login(data);
-      console.log("Form submitted:", data);
+      const response = await login(data);
+      console.log("response login", response.data.access_token);
+
+      setToken(response.data.access_token);
     } catch (error) {
       console.error("Login error:", error);
     }
   };
   return (
     <>
-      <div className="flex justify-center items-center w-full h-screen bg-gray-200">
+      <Modal
+        open={open}
+        onClose={onClose}
+        aria-labelledby="login-modal"
+        aria-describedby="login-form"
+        className="flex items-center justify-center "
+      >
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-full max-w-md bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 "
         >
           <div className="flex flex-col gap-5">
-            <div className="flex justify-start">
+            <div className="flex justify-between items-start">
               <img
                 className="h-14 w-auto"
                 src="https://mjcc.gov.ma/wp-content/uploads/2021/12/mjcc_black.svg"
                 alt="MJCC Logo"
               />
+              <div
+                className="hover:bg-gray-200 p-2 rounded-full"
+                onClick={onClose}
+              >
+                <TfiClose />
+              </div>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -77,6 +107,12 @@ const Login: React.FC = () => {
               )}
             </div>
             <button
+              type="button"
+              className="text-orange-500 text-sm text-right hover:underline"
+            >
+              Mot de passe oublié ?
+            </button>
+            <button
               className="p-2 bg-orange-500 rounded-lg text-white px-3 py-2 "
               type="submit"
             >
@@ -88,9 +124,21 @@ const Login: React.FC = () => {
                 "se connecter"
               )}
             </button>
+            <div className="flex justify-center items-center gap-2">
+              <p className="text-sm text-center">Pas encore de compte ?</p>
+              <button
+                type="button"
+                className="text-base text-orange-500 hover:underline"
+                onClick={() => {
+                  navigte("/auth/singup");
+                }}
+              >
+                S'inscrire
+              </button>
+            </div>
           </div>
         </form>
-      </div>
+      </Modal>
     </>
   );
 };
