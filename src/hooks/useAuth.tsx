@@ -23,7 +23,7 @@ export const useAuth = () => {
     setError(null);
     try {
       const response = await authApi.register(credentials);
-      console.log(response);
+      return response;
     } catch (err) {
       setError("register failed . Please try again.");
       throw err;
