@@ -52,6 +52,7 @@ const SignUp: React.FC = () => {
   } = useForm<SignUpFormData>({
     resolver: zodResolver(SignUpSchema),
   });
+  console.log("test");
   const { signup } = useAuth();
   const navigate = useNavigate();
 
@@ -167,7 +168,7 @@ const SignUp: React.FC = () => {
                 type="submit"
               >
                 {isSubmitting ? (
-                  <CircularProgress className="text-white" size={24} />
+                  <CircularProgress sx={{ color: "white" }} size={24} />
                 ) : (
                   "S'inscrire"
                 )}
@@ -175,7 +176,7 @@ const SignUp: React.FC = () => {
 
               <div className="text-center">
                 <p className="text-sm text-gray-600">
-                  Already have an account?{" "}
+                  Already have an account?
                   <button
                     type="button"
                     className="font-medium text-orange-600 hover:text-orange-500"
