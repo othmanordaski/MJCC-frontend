@@ -1,7 +1,6 @@
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import Modal from "@mui/material/Modal";
 import { z } from "zod";
 const newsletterSchema = z.object({
   email: z.string().email("Invalid email address"),
