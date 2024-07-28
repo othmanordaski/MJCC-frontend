@@ -85,7 +85,7 @@ const SignUp: React.FC = () => {
     <div className="flex justify-center items-center w-full min-h-screen bg-gray-200 p-4">
       <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="hidden md:block bg-orange-500">
+          <div className="hidden md:block ">
             <img
               className="w-full h-full object-cover"
               src={bgimage}
@@ -174,12 +174,12 @@ const SignUp: React.FC = () => {
                 )}
               </button>
 
-              <div className="text-center">
-                <p className="text-sm text-gray-600">
+              <div className="flex justify-center items-center ">
+                <p className="text-sm text-gray-600 ">
                   Already have an account?
                   <button
                     type="button"
-                    className="font-medium text-orange-600 hover:text-orange-500"
+                    className="font-medium ml-1 text-orange-600 hover:text-orange-500 hover:underline"
                     onClick={() => navigate("/")}
                   >
                     Se connecter
