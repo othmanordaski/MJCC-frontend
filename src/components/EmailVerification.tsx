@@ -3,11 +3,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 import { CheckCircle, XCircle, Loader } from "lucide-react";
+import { authApi } from "../api/auth";
 
 const verifyEmail = async (token: string) => {
-  const { data } = await axios.get(`/api/v1/auth/verify?token=${token}`);
+  const { data } = await authApi.verifyToken(token)
   return data;
 };
 
@@ -23,12 +23,10 @@ const EmailVerification: React.FC = () => {
       enabled: !!token,
       retry: false,
       onSuccess: () => {
-        toast.success("Email verified successfully!");
-        setTimeout(() => navigate("/login"), 3000);
+        setTimeout(() => navigate("/"), 3000);
       },
       onError: (err: any) => {
-        toast.error(err.response?.data?.message || "Verification failed");
-      },
+        console.error(err);},
     }
   );
 
