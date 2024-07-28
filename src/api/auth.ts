@@ -16,6 +16,11 @@ export const authApi = {
   register: async (credentials: RegisterCredentials) => {
     return await axiosInstance.post("/signup", credentials);
   },
+  verifyToken: async (token: string) => {
+    return await axiosInstance.get("/verify", {
+      params: { token }
+    });
+  },
   logout: () => {
     axiosInstance.post("/logout");
   },
