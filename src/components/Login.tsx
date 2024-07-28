@@ -38,9 +38,8 @@ const Login: React.FC<LoginProps> = ({ open, onClose }) => {
   const onSubmit = async (data: loginFormData) => {
     try {
       const response = await login(data);
-      console.log("response login", response.data.access_token);
-
       setToken(response.data.access_token);
+      navigte("/");
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -130,7 +129,7 @@ const Login: React.FC<LoginProps> = ({ open, onClose }) => {
                 type="button"
                 className="text-base text-orange-500 hover:underline"
                 onClick={() => {
-                  navigte("/auth/singup");
+                  navigte("/auth/signup");
                 }}
               >
                 S'inscrire
