@@ -53,7 +53,7 @@ const SignUp: React.FC = () => {
     resolver: zodResolver(SignUpSchema),
   });
   console.log("test");
-  const { signup } = useAuth();
+  const { signup, openLoginModal } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = async (data: SignUpFormData) => {
@@ -79,6 +79,10 @@ const SignUp: React.FC = () => {
     } catch (error) {
       console.error("Facebook signup failed:", error);
     }
+  };
+  const handleLoginClick = () => {
+    navigate("/");
+    openLoginModal();
   };
 
   return (
@@ -180,7 +184,7 @@ const SignUp: React.FC = () => {
                   <button
                     type="button"
                     className="font-medium ml-1 text-orange-600 hover:text-orange-500 hover:underline"
-                    onClick={() => navigate("/")}
+                    onClick={handleLoginClick}
                   >
                     Se connecter
                   </button>
