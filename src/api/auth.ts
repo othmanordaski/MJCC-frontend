@@ -11,17 +11,17 @@ export interface RegisterCredentials extends LoginCredentials {
 
 export const authApi = {
   login: async (credentials: LoginCredentials) => {
-    return await axiosInstance.post("/login", credentials);
+    return await axiosInstance.post("auth/login", credentials);
   },
   register: async (credentials: RegisterCredentials) => {
-    return await axiosInstance.post("/signup", credentials);
+    return await axiosInstance.post("auth/signup", credentials);
   },
   verifyToken: async (token: string) => {
-    return await axiosInstance.get("/verify", {
-      params: { token }
+    return await axiosInstance.get("auth/verify", {
+      params: { token },
     });
   },
-  logout: () => {
-    axiosInstance.post("/logout");
+  forgetPasswordApi: async (email: string) => {
+    return await axiosInstance.post("reset-password/request", { email });
   },
 };
