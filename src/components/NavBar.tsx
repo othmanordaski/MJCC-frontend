@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
 import Login from "./Login";
 
 const provinces: string[] = [
@@ -100,11 +101,9 @@ const Dropdown: React.FC<DropdownProps> = ({
 
 const NavBar: React.FC = () => {
   const [isRegionsOpen, setIsRegionsOpen] = useState<boolean>(false);
-  const [loginOpen, setLoginOpen] = useState(false);
-  const handleLoginOpen = () => setLoginOpen(true);
-  const handleLoginClose = () => setLoginOpen(false);
-
   const [isDepartmentsOpen, setIsDepartmentsOpen] = useState<boolean>(false);
+
+  const { handleLoginOpen } = useAuth();
 
   return (
     <header className="shadow-lg">
@@ -157,7 +156,6 @@ const NavBar: React.FC = () => {
         >
           Se connecter
         </button>
-        <Login open={loginOpen} onClose={handleLoginClose} />
       </nav>
     </header>
   );
