@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { TfiClose } from "react-icons/tfi";
 import { useAuth } from "../hooks/useAuth";
+import { useAuthContext } from "../context/AuthContext";
 
 // Schemas
 const loginSchema = z.object({
@@ -23,17 +24,13 @@ const forgotPasswordSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
-interface LoginProps {
-  open: boolean;
-  onClose: () => void;
-}
-
 // Component
-const Login: React.FC<LoginProps> = () => {
+const Login: React.FC = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const navigate = useNavigate();
-  const { login, forgotPassword, loginOpen, handleLoginClose } = useAuth();
-  console.log(loginOpen);
+  const { login, forgotPassword } = useAuth();
+  const { isModalOpen, closeModal } = useAuthContext();
+  console.log("test", isModalOpen);
   const {
     register: loginRegister,
     handleSubmit: handleLoginSubmit,
@@ -67,7 +64,7 @@ const Login: React.FC<LoginProps> = () => {
       const response = await login(data);
       setToken(response.data.access_token);
       navigate("/");
-      handleLoginClose();
+      closeModal();
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -84,7 +81,7 @@ const Login: React.FC<LoginProps> = () => {
   };
 
   const handleClose = () => {
-    handleLoginClose();
+    closeModal();
     setIsForgotPassword(false);
     resetLoginForm();
     resetForgotPasswordForm();
@@ -207,7 +204,7 @@ const Login: React.FC<LoginProps> = () => {
 
   return (
     <Modal
-      open={loginOpen}
+      open={isModalOpen}
       onClose={handleClose}
       aria-labelledby="login-modal"
       aria-describedby="login-form"
