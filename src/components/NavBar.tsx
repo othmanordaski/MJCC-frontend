@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { useAuth } from "../hooks/useAuth";
-import Login from "./Login";
+import { useAuthContext } from "../context/AuthContext";
 
 const provinces: string[] = [
   "Tanger-Tétouan-Al Hoceïma",
@@ -18,8 +17,6 @@ const provinces: string[] = [
   "Laâyoune-Sakia El Hamra",
   "Dakhla-Oued Ed-Dahab",
 ];
-
-const departements: string[] = ["jeunesse", "communication", "culture"];
 
 interface DropdownProps {
   isOpen: boolean;
@@ -103,7 +100,7 @@ const NavBar: React.FC = () => {
   const [isRegionsOpen, setIsRegionsOpen] = useState<boolean>(false);
   const [isDepartmentsOpen, setIsDepartmentsOpen] = useState<boolean>(false);
 
-  const { handleLoginOpen } = useAuth();
+  const { openModal } = useAuthContext();
 
   return (
     <header className="shadow-lg">
@@ -125,14 +122,6 @@ const NavBar: React.FC = () => {
             </Link>
           </li>
           <Dropdown
-            isOpen={isDepartmentsOpen}
-            setIsOpen={setIsDepartmentsOpen}
-            title="Départements"
-            items={departements}
-            linkPrefix="/departement"
-            className="w-48"
-          />
-          <Dropdown
             isOpen={isRegionsOpen}
             setIsOpen={setIsRegionsOpen}
             title="Régions"
@@ -152,7 +141,7 @@ const NavBar: React.FC = () => {
         </ul>
         <button
           className="px-4 py-2 rounded-lg text-orange-500 border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-colors duration-300"
-          onClick={handleLoginOpen}
+          onClick={openModal}
         >
           Se connecter
         </button>
