@@ -1,14 +1,9 @@
-import React from "react";
 import { useState } from "react";
 import { authApi, LoginCredentials, RegisterCredentials } from "../api/auth";
 
 export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const [loginOpen, setLoginOpen] = useState(false);
-  const handleLoginOpen = () => setLoginOpen(true);
-  const handleLoginClose = () => setLoginOpen(false);
 
   const login = async (credentials: LoginCredentials) => {
     setIsLoading(true);
@@ -51,8 +46,5 @@ export const useAuth = () => {
     forgotPassword,
     isLoading,
     error,
-    loginOpen,
-    handleLoginOpen,
-    handleLoginClose,
   };
 };
