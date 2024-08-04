@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import bgimage from "../assets/SignUp-image-background/bg-image.jpg";
+import { useAuthContext } from "../context/AuthContext";
 
 const SignUpSchema = z.object({
   username: z
@@ -54,11 +55,13 @@ const SignUp: React.FC = () => {
   });
   console.log("test");
   const { signup } = useAuth();
+  const { openModal } = useAuthContext();
   const navigate = useNavigate();
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
       const response = await signup(data);
+      console.log(response);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -79,6 +82,10 @@ const SignUp: React.FC = () => {
     } catch (error) {
       console.error("Facebook signup failed:", error);
     }
+  };
+  const handleLoginClick = () => {
+    navigate("/");
+    openModal();
   };
 
   return (
@@ -180,7 +187,7 @@ const SignUp: React.FC = () => {
                   <button
                     type="button"
                     className="font-medium ml-1 text-orange-600 hover:text-orange-500 hover:underline"
-                    onClick={() => navigate("/")}
+                    onClick={handleLoginClick}
                   >
                     Se connecter
                   </button>
