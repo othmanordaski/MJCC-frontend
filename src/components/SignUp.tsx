@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import bgimage from "../assets/SignUp-image-background/bg-image.jpg";
+import { useAuthContext } from "../context/AuthContext";
 
 const SignUpSchema = z.object({
   username: z
@@ -53,12 +54,14 @@ const SignUp: React.FC = () => {
     resolver: zodResolver(SignUpSchema),
   });
   console.log("test");
-  const { signup, openLoginModal } = useAuth();
+  const { signup } = useAuth();
+  const { openModal } = useAuthContext();
   const navigate = useNavigate();
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
       const response = await signup(data);
+      console.log(response);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -82,7 +85,7 @@ const SignUp: React.FC = () => {
   };
   const handleLoginClick = () => {
     navigate("/");
-    openLoginModal();
+    openModal();
   };
 
   return (
