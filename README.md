@@ -1,30 +1,44 @@
-# React + TypeScript + Vite
+# # MJCC Project
+This project is a web application developed for the Ministère de la Jeunesse et des Sports. The application serves as a dynamic news platform, providing the latest updates and information on youth and sports-related activities. It includes various components such as a header, footer, and several pages for different functionalities like news articles, event listings, and user interaction.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The application is built using modern web development technologies, including React, Vite, and TypeScript, ensuring a fast, maintainable, and scalable solution.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/othmanordaski/MJCC-frontend.git
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd MJCC
+    ```
+3. Install the dependencies:
+    ```sh
+    npm install
+    ```
 
-## Expanding the ESLint configuration
+## Development
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+To start the development server, run:
+```sh
+npm run dev
+``` 
+## Environment Variables
 
-- Configure the top-level `parserOptions` property like this:
+To run this project, you need to set up a `.env` file in the root directory of your project. This file should contain the necessary environment variables used by the application. Below is a description of each variable and an example of what your `.env` file might look like.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### Required Environment Variables
+
+- **`VITE_NEWS_API_KEY`**:  
+  This variable holds the API key used to fetch news data from an external news API service. It's crucial for accessing the news content displayed in the application.
+
+- **`VITE_API_BASE_URL`**:  
+  This variable specifies the base URL of the backend API that the application interacts with. It should be set to the URL of the server that provides data to your frontend.
+
+### Example `.env` File
+
+```plaintext
+VITE_NEWS_API_KEY=your_news_api_key_here
+VITE_API_BASE_URL=http://localhost:3000/api
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
