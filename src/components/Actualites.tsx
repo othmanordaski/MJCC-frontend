@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { useArticlesContext } from "../context/ArticalsContext";
 interface NewsItemProps {
   title: string;
   description: string;
@@ -64,37 +64,9 @@ const QuickAccessItem: React.FC<QuickAccessItemProps> = ({
 );
 
 const NewsDashboard: React.FC = () => {
-  const [articles, setArticles] = useState<NewsItemProps[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [quickAccessItems, setquickAccessItems] = useState<
-    QuickAccessItemProps[]
-  >([]);
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      const apiKey = import.meta.env.VITE_NEWS_API_KEY;
-      if (!apiKey) {
-        throw new Error("API key is not defined in environment variables");
-      }
-      try {
-        const response = await fetch(
-          `https://newsapi.org/v2/everything?q=morocco&apiKey=${apiKey}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch articles");
-        }
-        const data = await response.json();
-        setArticles(data.articles.slice(0, 4));
-        setquickAccessItems(data.articles.slice(16, 26));
-      } catch (err) {
-        setError("Failed to fetch articles. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchArticles();
-  }, []);
+  const { articles, loading, error } = useArticlesContext();
+  const articlesItems = articles.slice(0, 4);
+  const quickAccessItems = articles.slice(16, 26);
 
   if (loading)
     return (
@@ -110,7 +82,7 @@ const NewsDashboard: React.FC = () => {
         <div className="md:col-span-2">
           <h2 className="text-2xl font-bold mb-4">Actualités à la Une</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {articles.map((item, index) => (
+            {articlesItems.map((item, index) => (
               <NewsItem key={index} {...item} />
             ))}
           </div>
