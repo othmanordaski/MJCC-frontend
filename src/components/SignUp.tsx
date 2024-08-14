@@ -9,6 +9,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import bgimage from "../assets/SignUp-image-background/bg-image.jpg";
 import { useAuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const SignUpSchema = z.object({
   username: z
@@ -59,12 +60,32 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: SignUpFormData) => {
+    const id = toast.loading("Creating account...");
     try {
       const response = await signup(data);
-      console.log(response);
+      if (response.status === 201) {
+        toast.update(id, {
+          render:
+            "User created successfully. Please check your email to verify your account",
+          type: "success",
+          isLoading: false,
+          progress: undefined,
+          autoClose: 7000,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+      }
       navigate("/");
     } catch (err) {
-      console.log(err);
+      toast.update(id, {
+        render: "An error occurred.",
+        type: "error",
+        isLoading: false,
+        progress: undefined,
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
   };
 
