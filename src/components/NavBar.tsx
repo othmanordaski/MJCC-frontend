@@ -98,7 +98,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 
 const NavBar: React.FC = () => {
   const [isRegionsOpen, setIsRegionsOpen] = useState<boolean>(false);
-  const [isDepartmentsOpen, setIsDepartmentsOpen] = useState<boolean>(false);
 
   const { openModal } = useAuthContext();
 
