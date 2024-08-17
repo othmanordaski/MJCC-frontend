@@ -1,5 +1,11 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
-
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import Cookies from "js-cookie";
 interface AuthContextProps {
   isAuthenticated: boolean;
   isModalOpen: boolean;
@@ -20,7 +26,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
+  const logout = () => {
+    Cookies.remove("auth_token");
+    setIsAuthenticated(false);
+  };
+  useEffect(() => {
+    const token = Cookies.get("auth_token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider
