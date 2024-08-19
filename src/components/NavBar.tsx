@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { useAuthContext } from "../context/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const provinces: string[] = [
   "Tanger-Tétouan-Al Hoceïma",
@@ -99,7 +100,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 const NavBar: React.FC = () => {
   const [isRegionsOpen, setIsRegionsOpen] = useState<boolean>(false);
 
-  const { openModal } = useAuthContext();
+  const { openModal, isAuthenticated } = useAuthContext();
 
   return (
     <header className="shadow-lg">
@@ -138,12 +139,19 @@ const NavBar: React.FC = () => {
             </Link>
           </li>
         </ul>
-        <button
-          className="px-4 py-2 rounded-lg text-orange-500 border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-colors duration-300"
-          onClick={openModal}
-        >
-          Se connecter
-        </button>
+        {isAuthenticated ? (
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        ) : (
+          <button
+            className="px-4 py-2 rounded-lg text-orange-500 border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-colors duration-300"
+            onClick={openModal}
+          >
+            Se connecter
+          </button>
+        )}
       </nav>
     </header>
   );
