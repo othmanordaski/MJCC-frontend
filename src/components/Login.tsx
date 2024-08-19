@@ -71,7 +71,9 @@ const Login: React.FC = () => {
     try {
       const response = await login(data);
       setToken(response.data.access_token);
-      toast.success("Logged in successfully", { progress: undefined });
+      toast.success("Connexion effectuée avec succès.", {
+        progress: undefined,
+      });
       closeModal();
       resetLoginForm();
       navigate("/");
@@ -90,11 +92,25 @@ const Login: React.FC = () => {
 
   const onForgotPasswordSubmit = async (data: ForgotPasswordFormData) => {
     try {
-      await forgotPassword(data.email);
+      const response = await forgotPassword(data.email);
+      if (response.status !== 200) {
+        toast.error("Une erreur s'est produite, veuillez réessayer", {
+          progress: undefined,
+        });
+      } else {
+        toast.success(
+          "Un email de réinitialisation de mot de passe vous a été envoyé.",
+          { progress: undefined }
+        );
+      }
+
       setIsForgotPassword(false);
       resetForgotPasswordForm();
     } catch (error) {
       console.error("Forgot password error:", error);
+      toast.error("Une erreur s'est produite, veuillez réessayer", {
+        progress: undefined,
+      });
     }
   };
 
