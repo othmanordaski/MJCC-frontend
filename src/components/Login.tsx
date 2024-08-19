@@ -61,7 +61,7 @@ const Login: React.FC = () => {
   });
 
   const setToken = (token: string) => {
-    Cookies.set("access_token", JSON.stringify(token), {
+    Cookies.set("auth_token", JSON.stringify(token), {
       path: "/",
       sameSite: "lax",
     });
@@ -74,8 +74,6 @@ const Login: React.FC = () => {
       toast.success("Logged in successfully", { progress: undefined });
       closeModal();
       resetLoginForm();
-      navigate("/");
-      closeModal();
       navigate("/");
       closeModal();
     } catch (error) {
