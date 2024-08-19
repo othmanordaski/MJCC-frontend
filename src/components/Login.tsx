@@ -9,11 +9,19 @@ import { useNavigate } from "react-router-dom";
 import { TfiClose } from "react-icons/tfi";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 // Schemas
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .max(100, "Password must not exceed 100 characters")
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
 });
 
 const forgotPasswordSchema = z.object({
@@ -63,10 +71,22 @@ const Login: React.FC = () => {
     try {
       const response = await login(data);
       setToken(response.data.access_token);
+      toast.success("Logged in successfully", { progress: undefined });
+      closeModal();
+      resetLoginForm();
+      navigate("/");
+      closeModal();
       navigate("/");
       closeModal();
     } catch (error) {
       console.error("Login error:", error);
+      if (error.response.status === 401) {
+        toast.error("Email ou mot de passe incorrect", { progress: undefined });
+      } else {
+        toast.error("Une erreur s'est produite, veuillez réessayer", {
+          progress: undefined,
+        });
+      }
     }
   };
 
