@@ -75,10 +75,9 @@ const Login: React.FC = () => {
       closeModal();
       resetLoginForm();
       navigate("/");
-      closeModal();
     } catch (error) {
       console.error("Login error:", error);
-      if (error.response.status === 401) {
+      if (error.response?.status === 401) {
         toast.error("Email ou mot de passe incorrect", { progress: undefined });
       } else {
         toast.error("Une erreur s'est produite, veuillez réessayer", {
