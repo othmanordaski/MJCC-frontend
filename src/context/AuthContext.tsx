@@ -11,7 +11,7 @@ interface AuthContextProps {
   isModalOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
-  login: () => void;
+  loginAuth: () => void;
   logout: () => void;
 }
 
@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  const login = () => setIsAuthenticated(true);
+  const loginAuth = () => setIsAuthenticated(true);
   const logout = () => {
     Cookies.remove("auth_token");
     setIsAuthenticated(false);
@@ -34,6 +34,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const token = Cookies.get("auth_token");
     if (token) {
       setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
     }
   }, []);
 
@@ -41,7 +43,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        login,
+        loginAuth,
         logout,
         isModalOpen,
         openModal,
