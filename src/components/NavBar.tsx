@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { useAuthContext } from "../context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import avatarimage from "../assets/avatarimage.png";
 
 const provinces: string[] = [
   "Tanger-Tétouan-Al Hoceïma",
@@ -141,7 +142,7 @@ const NavBar: React.FC = () => {
         </ul>
         {isAuthenticated ? (
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src={avatarimage} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         ) : (
