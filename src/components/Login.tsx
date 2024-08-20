@@ -37,7 +37,7 @@ const Login: React.FC = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const navigate = useNavigate();
   const { login, forgotPassword } = useAuth();
-  const { isModalOpen, closeModal } = useAuthContext();
+  const { isModalOpen, closeModal, loginAuth } = useAuthContext();
   console.log("test", isModalOpen);
   const {
     register: loginRegister,
@@ -72,12 +72,13 @@ const Login: React.FC = () => {
       const response = await login(data);
       setToken(response.data.access_token);
       toast.success("Connexion effectuée avec succès.", {
+        autoClose: 2000,
         progress: undefined,
       });
       closeModal();
       resetLoginForm();
+      loginAuth();
       navigate("/");
-      closeModal();
     } catch (error) {
       console.error("Login error:", error);
       if (error.response.status === 401) {
