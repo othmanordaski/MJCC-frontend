@@ -32,6 +32,14 @@ const forgotPasswordSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
+interface AxiosError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 // Component
 const Login: React.FC = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
@@ -80,14 +88,12 @@ const Login: React.FC = () => {
       loginAuth();
       navigate("/");
     } catch (error) {
-      console.error("Login error:", error);
-      if (error.response.status === 401) {
-        toast.error("Email ou mot de passe incorrect", { progress: undefined });
-      } else {
-        toast.error("Une erreur s'est produite, veuillez réessayer", {
-          progress: undefined,
-        });
-      }
+      const axiosError = error as AxiosError; // Cast to the custom interface
+      console.error("Login error:", axiosError);
+      const errorMessage =
+        axiosError.response?.data?.message ||
+        "Une erreur s'est produite, veuillez réessayer";
+      toast.error(errorMessage, { progress: undefined });
     }
   };
 
