@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
+// import Header from "../components/Header";
+// import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Copyright from "../components/Copyright";
 import HeroSection from "../components/HeroSection";
@@ -13,8 +13,6 @@ const Home: React.FC = () => {
   const { isModalOpen } = useAuthContext();
   return (
     <>
-      <Header />
-      <NavBar />
       {isModalOpen && <Login />}
       <HeroSection />
       <NewsDashboard />
