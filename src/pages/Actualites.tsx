@@ -1,7 +1,8 @@
 import React from "react";
 import { useArticlesContext } from "../context/ArticalsContext";
 import NewsCard from "@/components/NewsCard";
-
+import SearchInput from "@/components/Searchinput";
+import Pagination from "@/components/Pagination";
 const Actualites: React.FC = () => {
   const { articles } = useArticlesContext();
   const newActualites = articles.slice(0, 5);
@@ -9,6 +10,7 @@ const Actualites: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       {/* Additional News Cards in a 3-column grid */}
+      <SearchInput />
       <div className="mt-8 my-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
         {additionalNews.map((article, index) => (
           <NewsCard
@@ -23,6 +25,7 @@ const Actualites: React.FC = () => {
           />
         ))}
       </div>
+      <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
     </div>
   );
 };
