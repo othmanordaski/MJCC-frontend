@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { useAuthContext } from "../context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { House } from "lucide-react";
+import { FaHome } from "react-icons/fa";
 import avatarimage from "../assets/avatarimage.png";
 
 const provinces: string[] = [
@@ -103,6 +106,11 @@ const NavBar: React.FC = () => {
 
   const { openModal, isAuthenticated } = useAuthContext();
 
+  const navigate = useNavigate();
+  const handleSignUp = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    navigate("/auth/signup");
+  };
   return (
     <header className="shadow-lg">
       <nav className="container mx-auto px-4 py-2 flex justify-between items-center">
@@ -114,6 +122,15 @@ const NavBar: React.FC = () => {
           />
         </Link>
         <ul className="flex items-center space-x-6">
+          <li>
+            <Link
+              to="/"
+              className="text-[20px] text-blue-500 hover:text-blue-700"
+            >
+              <FaHome />
+            </Link>
+          </li>
+
           <li>
             <Link
               to="/actualites"
@@ -146,12 +163,20 @@ const NavBar: React.FC = () => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         ) : (
-          <button
-            className="px-4 py-2 rounded-lg text-orange-500 border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-colors duration-300"
-            onClick={openModal}
-          >
-            Se connecter
-          </button>
+          <div className="flex justify-end align-items gap-4">
+            <button
+              className="px-3 py-2 rounded-lg text-orange-500 border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-colors duration-300"
+              onClick={openModal}
+            >
+              Se connecter
+            </button>
+            <button
+              className="px-4 py-2 rounded-lg text-white bg-orange-500 border-2 border-orange-500 hover:bg-white hover:text-orange-500 hover:border-white transition-colors duration-300"
+              onClick={handleSignUp}
+            >
+              S'inscrire
+            </button>
+          </div>
         )}
       </nav>
     </header>
