@@ -15,6 +15,8 @@ import Actualites from "./pages/Actualites";
 import EmailVerification from "./components/EmailVerification";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import Copyright from "./components/Copyright";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 // Import contexts
@@ -52,12 +54,16 @@ const Layout: React.FC = () => {
   const { isModalOpen } = useAuthContext();
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Header />
       <NavBar />
       {isModalOpen && <Login />}
-      <Outlet />
-    </>
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      <Footer />
+      <Copyright />
+    </div>
   );
 };
 
