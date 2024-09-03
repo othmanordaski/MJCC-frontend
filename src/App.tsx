@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 // Import components
 import Home from "./pages/Home";
 import Actualites from "./pages/Actualites";
+import SearchPage from "./pages/SearchPage";
 import EmailVerification from "./components/EmailVerification";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
@@ -42,6 +43,7 @@ const queryClient = new QueryClient({
 const mainRoutes: RouteConfig[] = [
   { path: "/", element: <Home /> },
   { path: "/actualites", element: <Actualites /> },
+  { path: "/actualites/search", element: <SearchPage /> },
 ];
 
 const standaloneRoutes: RouteConfig[] = [
