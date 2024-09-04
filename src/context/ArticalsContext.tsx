@@ -25,7 +25,8 @@ interface Article {
 interface ArticlesContextProps {
   articles: Article[];
   loading: boolean;
-  error: string | null; // Changed to be always defined
+  error: string | null;
+  filterArticles: (query: string) => Article[];
 }
 
 const ArticlesContext = createContext<ArticlesContextProps | undefined>(
@@ -65,8 +66,18 @@ export const ArticleProvider: React.FC<{ children: ReactNode }> = ({
     fetchArticles();
   }, []);
 
+  const filterArticles = (query: string) => {
+    return articles.filter(
+      (article) =>
+        article.title.toLowerCase().includes(query.toLowerCase()) ||
+        article.content.toLowerCase().includes(query.toLowerCase())
+    );
+  };
+
   return (
-    <ArticlesContext.Provider value={{ articles, loading, error }}>
+    <ArticlesContext.Provider
+      value={{ articles, loading, error, filterArticles }}
+    >
       {children}
     </ArticlesContext.Provider>
   );
